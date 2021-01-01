@@ -1,5 +1,5 @@
 component: aws-dynamodb
-name: database
+name: panagram-db
 app: pangram
 
 inputs:
