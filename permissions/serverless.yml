@@ -1,5 +1,6 @@
 component: aws-iam-role
 name: permissions
+app: pangram
 
 inputs:
   name: ${name}-${stage}

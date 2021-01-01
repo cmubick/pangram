@@ -1,5 +1,6 @@
 component: express
 name: api
+app: pangram
 
 inputs:
   # Express application source code.

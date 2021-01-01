@@ -1,5 +1,6 @@
 component: aws-dynamodb
 name: database
+app: pangram
 
 inputs:
   name: ${name}-${stage}
