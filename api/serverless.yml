@@ -1,5 +1,5 @@
 component: express
-name: api
+name: pangram-api
 app: pangram
 
 inputs:

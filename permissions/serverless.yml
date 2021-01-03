@@ -1,5 +1,5 @@
 component: aws-iam-role
-name: permissions
+name: panagram-permissions
 app: pangram
 
 inputs:

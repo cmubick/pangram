@@ -1,5 +1,5 @@
 component: website
-name: site
+name: panagram-site
 app: pangram
 
 inputs:
