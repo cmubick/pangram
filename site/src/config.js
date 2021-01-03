@@ -13,6 +13,6 @@ config.domains = {}
  * This will enable your front-end to communicate with your back-end.
  * (e.g. 'https://api.mydomain.com' or 'https://091jafsl10.execute-api.us-east-1.amazonaws.com')
  */
-config.domains.api = 'https://dna9ljztti.execute-api.us-east-1.amazonaws.com'
+config.domains.api = 'https://rnokivm6v1.execute-api.us-east-1.amazonaws.com'
 
 export default config
