@@ -135,7 +135,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    const backButtonText = "back";
     const override = css`
       display: block;
       margin: 0 auto;
@@ -180,7 +179,6 @@ class Dashboard extends Component {
               </div>
               <div className={`${styles.wordEntryWrapper}`}>
                 <span className={`${styles.wordEntry}`}>{this.state.wordEntry.toUpperCase()}</span>
-                <button onClick={this.onBackClick} className={`${styles.backButton}`}>{backButtonText}</button>
               </div>
 
               <div>
@@ -202,10 +200,14 @@ class Dashboard extends Component {
               <div className={`${styles.buttonWrapper}`}>
                 <button onClick={() => this.onEntryChange(this.state.game.gameLetters[5])} className={`${styles.letterButton}`}>{this.state.game.gameLetters[5].toUpperCase()}</button>
               </div>
-              
-              <button onClick={this.onSubmit} className={`${styles.submitButton}`} onKeyPress={this.onKeyPress}>
-                SUBMIT
-              </button>
+              <div className={`${styles.actionButtonWrapper}`}>
+                <button onClick={this.onBackClick} className={`${styles.actionButton}`}>
+                  Delete
+                </button>
+                <button onClick={this.onSubmit} className={`${styles.actionButton}`} onKeyPress={this.onKeyPress}>
+                  SUBMIT
+                </button>
+              </div>
               <div className={`${styles.errorWrapper}`}>
                 {this.state.message === '' ? null :
                   <span className={`${styles.errorMessage}`}>{this.state.message}</span>

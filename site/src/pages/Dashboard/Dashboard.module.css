@@ -99,7 +99,6 @@
   width: fit-content;
   height: auto;
   font-size: 28px;
-  margin-left: 140px;
   margin-bottom: 48px;
   justify-content: center;
 }
@@ -125,6 +124,7 @@
 
 .letterButton {
   color: black;
+  background-color:#e6e6e6;
   font-size: 24px;
   width: 60px;
   height: 60px;
@@ -160,20 +160,6 @@
   background-color: rgb(211, 211, 211);
 }
 
-.backButton {
-  color: black;
-  font-size: 24px;
-  width: 60px;
-  height: 60px;
-  border-radius: 60px;
-  outline: none;
-  cursor: pointer;
-  margin-left: 40px;
-  margin-right: 40px;
-  font-weight: 700;
-  border: #F8E71C 1px solid;
-}
-
 .errorWrapper {
   display: flex;
   align-content: center;
@@ -192,34 +178,18 @@
   width: 300px;
 }
 
-.submitButton {
-  margin-top: 24px;
-  color: black;
-  font-size: 24px;
-  width: 260px;
-  height: 60px;
-  border-radius: 60px;
-  outline: none;
-  cursor: pointer;
-  margin-left: 40px;
-  margin-right: 40px;
-  font-weight: 700;
-  border: #F8E71C 1px solid;
-}
-
 .gameStats {
   display: flex;
   align-content: center;
   text-align: center;
-  width: fit-content;
-  height: auto;
   font-size: 28px;
   margin-bottom: 18px;
   justify-content: center;
   width: 300px;
   padding: 8px;
-  border: white 1px solid;
+  border: #8c8c8c 1px solid;
   border-radius: 10px;
+  outline: none;
 }
 
 .points {
@@ -232,4 +202,24 @@
   color: #F8E71C;
   margin-top: 16px;
   padding-left: 24px;
+}
+
+.actionButtonWrapper {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}
+
+.actionButton {
+  color: black;
+  background-color:#e6e6e6;
+  border: #F8E71C 1px solid;
+  font-size: 24px;
+  width: calc(50% - 8px);
+  height: 60px;
+  border-radius: 60px;
+  outline: none;
+  cursor: pointer;
+  font-weight: 700;
 }
