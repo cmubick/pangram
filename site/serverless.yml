@@ -12,7 +12,6 @@ inputs:
   # domain: ${env:domain}
 
 outputs:
-  bucket:
-    url: http://pangram.chrisubick.io.s3-website-us-west-2.amazonaws.com
-    name: pangram.chrisubick.io
-    
+  bucket: pangram.chrisubick.io
+  bucketUrl: http://pangram.chrisubick.io.s3-website-us-west-2.amazonaws.com
+  
