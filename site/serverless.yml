@@ -1,7 +1,6 @@
 component: website
-name: panagram-site
+name: pangram-site
 app: pangram
-timeout: 5000s
 
 inputs:
   # React application. "hook" runs before deployment to build the source code.  "dist" is the built artifact directory which is uploaded.

@@ -1,9 +1,9 @@
 component: aws-iam-role
-name: panagram-permissions
+name: pangram-permissions
 app: pangram
 
 inputs:
-  name: ${name}-${stage}
+  name: pangram-permissions-${stage}
   region: us-east-1
   service: lambda.amazonaws.com
   policy:
@@ -24,6 +24,7 @@ inputs:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
+        - dynamodb:Scan
       Resource:
         - ${output:database.arn}
         - ${output:database.arn}/index/*

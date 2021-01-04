@@ -6,7 +6,7 @@ inputs:
   # Express application source code.
   src: ./
   # Permissions required for the AWS Lambda function to interact with other resources
-  roleName: ${output:permissions.name}
+  roleName: pangram-permissions-dev
   # Enable this when you want to set a custom domain.
   # domain: api.${env:domain}
   # Environment variables

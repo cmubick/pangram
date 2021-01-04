@@ -50,6 +50,10 @@ export const requestApi = async (
   // Set headers
   headers = Object.assign(
     { 'Content-Type': 'application/json' },
+    { 'Access-Control-Allow-Methods': '*' },
+    { 'Access-Control-Allow-Headers': '*' },
+    { 'Access-Control-Allow-Origin': '*' },
+    { 'x-powered-by': 'serverless-express' },
     headers
   )
 
