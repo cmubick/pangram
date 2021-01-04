@@ -10,3 +10,8 @@ inputs:
     dist: build
   # Enable this when you want to set a custom domain.
   # domain: ${env:domain}
+
+custom:
+  assets:
+    targets:
+      - bucket: pangram.chrisubick.io
