@@ -115,9 +115,9 @@
   font-size: 22px;
 }
 
-.containerRegister {}
+/* .containerRegister {}
 
-.containerSignIn {}
+.containerSignIn {} */
 
 .socialButtons {
   display: flex;

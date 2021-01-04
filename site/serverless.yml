@@ -11,7 +11,8 @@ inputs:
   # Enable this when you want to set a custom domain.
   # domain: ${env:domain}
 
-provider:
-  s3:
-    bucketOne:
-      name: pangram.chrisubick.io
+outputs:
+  bucket:
+    url: http://pangram.chrisubick.io.s3-website-us-west-2.amazonaws.com
+    name: pangram.chrisubick.io
+    
