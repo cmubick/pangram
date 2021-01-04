@@ -11,7 +11,8 @@ inputs:
   # Enable this when you want to set a custom domain.
   # domain: ${env:domain}
 
-outputs:
-  bucket: pangram.chrisubick.io
-  bucketUrl: http://pangram.chrisubick.io.s3-website-us-west-2.amazonaws.com
-  
+custom:
+  s3Sync:
+    - bucketUrl: http://pangram.chrisubick.io.s3-website-us-west-2.amazonaws.com
+    - bucketName: pangram.chrisubick.io
+      localDir: static
