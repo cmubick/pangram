@@ -26,5 +26,5 @@ inputs:
         - dynamodb:DeleteItem
         - dynamodb:Scan
       Resource:
-        - ${output:database.arn}
-        - ${output:database.arn}/index/*
+        - arn:aws:dynamodb:us-east-1:427302641213:table/pangram-db-dev
+        - arn:aws:dynamodb:us-east-1:427302641213:table/pangram-db-dev/index/*
