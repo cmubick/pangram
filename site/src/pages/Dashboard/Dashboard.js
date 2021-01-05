@@ -12,7 +12,7 @@ import {
 import GridLoader from 'react-spinners/GridLoader';
 import { css } from '@emotion/core';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { FiRefreshCcw } from 'react-icons/fi';
+import { TiArrowShuffle } from 'react-icons/ti';
 import Drawer from 'react-drag-drawer'
 import ReactTimer from '@xendora/react-timer';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
@@ -385,7 +385,7 @@ class Dashboard extends Component {
                   DELETE
                 </button>
                 <button className={`${styles.shuffleButton}`} onClick={this.onSuffleLetters}>
-                  <FiRefreshCcw />
+                  <TiArrowShuffle />
                 </button>
                 <button onClick={this.onSubmit} className={`${styles.actionButton}`} onKeyPress={this.onKeyPress}>
                   SUBMIT

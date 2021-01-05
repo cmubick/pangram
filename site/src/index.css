@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Basic_handwriting-Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Basic_handwriting-Regular');
+  src: url("./Basic_handwriting-Regular.otf");
+}
+
 html, body, #root {
   display: block;
   width: 100%;
@@ -7,7 +15,7 @@ html, body, #root {
   background: #000;
   color: #ffffff;
   margin: 0;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Basic_handwriting-Regular';
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -15,7 +23,7 @@ html, body, #root {
 }
 
 div, h1, h2, h3, h4, h5, h6, p, span, input, button, li {
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Basic_handwriting-Regular';
   font-size: 24px;
   color: #ffffff;
 }
@@ -25,7 +33,7 @@ div, h1, h2, h3, h4, h5, h6, p, span, input, button, li {
  */
 
 a, .link {
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Basic_handwriting-Regular';
   font-size: 24px;
   font-weight: 400;
   color: rgba(255,255,255,0.6);
@@ -53,7 +61,7 @@ a:active, .link:active {
   max-width: 360px;
   height: auto;
   margin: 20px 0 0 0;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Basic_handwriting-Regular';
   transition: all 0.14s ease;
   user-select: none;
   margin: 16px auto 0 auto!important;
