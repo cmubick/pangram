@@ -22,25 +22,14 @@ class Home extends Component {
 
           { /* Hero Artwork */}
 
-          <div className={`${styles.heroArtwork} animateFlicker`}>
-            <img
-              draggable='false'
-              src={'./fullstack-app-artwork.png'}
-              alt='serverless-fullstack-application'
-            />
-          </div>
-          <div className={`${styles.heroTitle}`}>
-            <img
-              draggable='false'
-              src={'./fullstack-app-title.png'}
-              alt='serverless-fullstack-application'
-            />
+          <div className={`${styles.heroTitle} animateFlicker`}>
+            PANGRAM
           </div>
 
           { /* Hero Description */}
 
           <div className={`${styles.heroDescription}`}>
-            A serverless full-stack application built with AWS Lambda, AWS HTTP API, Express.js, React & AWS DynamoDB.
+            A fun word game
           </div>
 
           { /* Call To Action */}

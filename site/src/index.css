@@ -53,18 +53,21 @@ a:active, .link:active {
   max-width: 360px;
   height: auto;
   margin: 20px 0 0 0;
-  padding: 24px 24px 28px 24px;
-  background: #fd5750;
-  color: #fff;
   font-family: 'Titillium Web', sans-serif;
-  font-size: 24px;
-  font-weight: 600;
-  border-radius: 4px;
-  border: 0px;
   transition: all 0.14s ease;
   user-select: none;
+  margin: 16px auto 0 auto!important;
+  color: black;
+  background-color:#e6e6e6;
+  border: #F8E71C 1px solid;
+  font-size: 18px;
+  height: 60px;
+  border-radius: 60px;
   outline: none;
-  text-transform: lowercase;
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0px;
 }
 
 .buttonPrimaryLarge:hover {

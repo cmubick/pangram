@@ -58,7 +58,6 @@
 }
 
 .heroDescription {
-  display: flex;
   text-align: center;
   font-weight: 400;
   font-size: 24px;
@@ -80,7 +79,7 @@
 
 .containerCta .linkSignIn {
   padding: 10px;
-  color: #fd5750;
+  color: #F8E71C;
   opacity: 0.65;
 }
 
@@ -93,7 +92,7 @@
  */
 
 ::-moz-selection { 
-  background: #fd5750; 
+  background: #F8E71C; 
   color: #ffffff;
   opacity: 1;
 }

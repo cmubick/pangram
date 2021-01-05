@@ -8,11 +8,12 @@ import {
   deleteSession,
   createGameLetters
 } from '../../utils'
-import GridLoader from "react-spinners/GridLoader";
-import { css } from "@emotion/core";
+import GridLoader from 'react-spinners/GridLoader';
+import { css } from '@emotion/core';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { FiRefreshCcw } from 'react-icons/fi';
 import Drawer from 'react-drag-drawer'
+import ReactTimer from '@xendora/react-timer';
 
 class Dashboard extends Component {
 
@@ -24,7 +25,9 @@ class Dashboard extends Component {
       answers: [],
       message: '',
       points: 0,
-      isOpen: false
+      isOpen: false,
+      level: 'beginner',
+      gameLetters: ''
     }
     this.logout = this.logout.bind(this)
     this.createGame = this.createGame.bind(this);
@@ -34,6 +37,10 @@ class Dashboard extends Component {
     this.onKeyPress = this.onKeyPress.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
     this.openDrawer = this.openDrawer.bind(this);
+    this.convertSecondsToTime = this.convertSecondsToTime.bind(this);
+    this.updateLevel = this.updateLevel.bind(this);
+    this.onSuffleLetters = this.onSuffleLetters.bind(this);
+    this.getWordEntry = this.getWordEntry.bind(this);
   }
 
   async componentDidMount() {
@@ -52,7 +59,8 @@ class Dashboard extends Component {
 
   createGame() {
     this.setState({
-      loading: true
+      loading: true,
+      isOpen: false
     }, () => {
       setTimeout(() => { // TODO: fix loading flag, then remove setTimeout hack
         createGameLetters().then((data) => {
@@ -61,6 +69,7 @@ class Dashboard extends Component {
           } else {
             this.setState({
               game: data,
+              gameLetters: data.gameLetters,
               loading: false,
               wordEntry: '',
               answers: [],
@@ -82,10 +91,13 @@ class Dashboard extends Component {
 
   onEntryChange(letter) {
     let currentWordEntry = this.state.wordEntry;
+    let me = this;
     currentWordEntry += letter;
     this.setState({
       wordEntry: currentWordEntry,
       message: ''
+    }, () => {
+      me.getWordEntry();
     });
   }
 
@@ -95,6 +107,18 @@ class Dashboard extends Component {
     this.setState({
       wordEntry: currentWordEntry,
       message: ''
+    });
+  }
+
+  onSuffleLetters() {
+    let { gameLetters } = this.state;
+    let arr = gameLetters.split('');
+    arr.sort(() => {
+      return 0.5 - Math.random();
+    });  
+    gameLetters = arr.join('');
+    this.setState({
+      gameLetters: gameLetters
     });
   }
 
@@ -120,11 +144,14 @@ class Dashboard extends Component {
           points = points + wordEntry.length;
           message = `Great! +${wordEntry.length} Points`
         }
+        let me = this;
         this.setState({
           message: message,
           answers: answers,
           points: points,
           wordEntry: ''
+        }, function() {
+          me.updateLevel();
         })
       } else {
         this.setState({
@@ -138,6 +165,11 @@ class Dashboard extends Component {
         wordEntry: ''
       })
     }
+    setTimeout(() => {
+      this.setState({
+        message: ''
+      })
+    }, 2000);
   }
 
   closeDrawer() {
@@ -146,6 +178,55 @@ class Dashboard extends Component {
   
   openDrawer() {
     this.setState({isOpen: true});
+  }
+
+  convertSecondsToTime(time) {
+    let date = new Date(0);
+    date.setSeconds(time);
+    return date.toISOString().substr(11, 8);
+  }
+
+  updateLevel() {
+    const { game, points } = this.state;
+    switch(true) {
+      case game.levels[1] > points && points >= game.levels[0]:
+        this.setState({
+          level: 'intermediate'
+        });
+        break;
+      case game.levels[2] > points && points >= game.levels[1]:
+        this.setState({
+          level: 'awesome'
+        });
+        break;
+      case points > game.levels[2]:
+        this.setState({
+          level: 'genius'
+        });
+        break;
+      default:
+        this.setState({
+          level: 'beginner'
+        });
+        break;
+    }
+  }
+
+  getWordEntry() {
+    let { wordEntry, game } = this.state;
+    wordEntry = wordEntry.toUpperCase();
+    let arr = wordEntry.split('');
+    return arr.map((letter) => {
+      if (letter === game.magicLetter.toUpperCase()) {
+        return (
+          <><span className={styles.magicLetterEntry}>{letter}</span></>
+        )
+      } else {
+        return (
+          <><span>{letter}</span></>
+        )
+      }
+    });
   }
 
   render() {
@@ -205,25 +286,37 @@ class Dashboard extends Component {
           : this.state?.game ?
             <div className={`${styles.contentContainer}`}>
               <div className={`${styles.gameStats}`}>
-                <div className={`${styles.points}`}>{this.state.points} Points</div>
+                <div className={`${styles.points}`}>
+                  <ReactTimer
+                    start={0}
+                    end={() => false}
+                    onEnd={value => console.log('ENDED WITH VALUE', value)}
+                    onTick={value => value + 1}
+                    className={styles.timer}
+                  >
+                    {time => <div>{this.convertSecondsToTime(time)}</div>}
+                  </ReactTimer>
+                  <div>{this.state.level}</div>
+                  <div>{this.state.points} Points</div>
+                </div>
               </div>
               <div className={`${styles.wordEntryWrapper}`}>
-                <span className={`${styles.wordEntry}`}>{this.state.wordEntry.toUpperCase()}</span>
+                <div className={`${styles.wordEntry}`}>{this.getWordEntry()}</div>
               </div>
 
               <div className={`${styles.letterButtonContainer}`}>
                 <div>
-                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[0])} className={`${styles.letterButton}`}>
-                    <span>{this.state.game.gameLetters[0].toUpperCase()}</span>
+                  <button onClick={() => this.onEntryChange(this.state.gameLetters[0])} className={`${styles.letterButton}`}>
+                    <span>{this.state.gameLetters[0].toUpperCase()}</span>
                   </button>
                 </div>
                 <div className={`${styles.buttonWrapper}`}>
-                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[1])} className={`${styles.letterButton}`}>
-                      <span>{this.state.game.gameLetters[1].toUpperCase()}</span>
+                  <button onClick={() => this.onEntryChange(this.state.gameLetters[1])} className={`${styles.letterButton}`}>
+                      <span>{this.state.gameLetters[1].toUpperCase()}</span>
                     </button>
                   <span className={`${styles.buttonWrapper}`}></span>
-                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[2])} className={`${styles.letterButton}`}>
-                    <span>{this.state.game.gameLetters[2].toUpperCase()}</span>
+                  <button onClick={() => this.onEntryChange(this.state.gameLetters[2])} className={`${styles.letterButton}`}>
+                    <span>{this.state.gameLetters[2].toUpperCase()}</span>
                   </button>
                 </div>
                 <div className={`${styles.buttonWrapper}`}>
@@ -232,17 +325,17 @@ class Dashboard extends Component {
                   </button>
                 </div>
                 <div className={`${styles.buttonWrapper}`}>
-                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[3])} className={`${styles.letterButton}`}>
-                    <span>{this.state.game.gameLetters[3].toUpperCase()}</span>
+                  <button onClick={() => this.onEntryChange(this.state.gameLetters[3])} className={`${styles.letterButton}`}>
+                    <span>{this.state.gameLetters[3].toUpperCase()}</span>
                   </button>
                   <span className={`${styles.buttonSpacer}`}></span>
-                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[4])} className={`${styles.letterButton}`}>
-                    <span>{this.state.game.gameLetters[4].toUpperCase()}</span>
+                  <button onClick={() => this.onEntryChange(this.state.gameLetters[4])} className={`${styles.letterButton}`}>
+                    <span>{this.state.gameLetters[4].toUpperCase()}</span>
                   </button>
                 </div>
                 <div className={`${styles.buttonWrapper}`}>
-                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[5])} className={`${styles.letterButton}`}>
-                    <span>{this.state.game.gameLetters[5].toUpperCase()}</span>
+                  <button onClick={() => this.onEntryChange(this.state.gameLetters[5])} className={`${styles.letterButton}`}>
+                    <span>{this.state.gameLetters[5].toUpperCase()}</span>
                     </button>
                 </div>
               </div>
@@ -250,7 +343,7 @@ class Dashboard extends Component {
                 <button onClick={this.onBackClick} className={`${styles.actionButton}`}>
                   DELETE
                 </button>
-                <button className={`${styles.shuffleButton}`}>
+                <button className={`${styles.shuffleButton}`} onClick={this.onSuffleLetters}>
                   <FiRefreshCcw />
                 </button>
                 <button onClick={this.onSubmit} className={`${styles.actionButton}`} onKeyPress={this.onKeyPress}>
@@ -263,8 +356,8 @@ class Dashboard extends Component {
                 }
               </div>
               {this.state.answers.length > 0 ?
-              <div className={`${styles.gameStats}`}>
-                <div className={`${styles.points}`}>
+              <div className={`${styles.answersWrapper}`}>
+                <div className={`${styles.words}`}>
                   {this.state.answers.map((answer, index) => {
                     return (
                       <span key={answer}>

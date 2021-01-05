@@ -189,9 +189,48 @@
   margin-right: auto;
 }
 
+.answersWrapper {
+  margin-bottom: 18px;
+  width: 300px;
+  padding: 8px;
+  border: #8c8c8c 1px solid;
+  border-radius: 10px;
+  outline: none;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}
+
+.words {
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}
+
+.words span {
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}
+
 .points {
-  color: #F8E71C;
-  font-weight: 700;
+  color: #F8E71C !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+.points div {
+  color: #F8E71C !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}
+
+.timer {
+  color: #F8E71C !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  width: 200px;
 }
 
 .loadingWrapper {
@@ -260,4 +299,8 @@
 
 .navButton {
   padding: 4px;
+}
+
+.magicLetterEntry {
+  color: #F8E71C
 }

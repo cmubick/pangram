@@ -132,11 +132,9 @@ class Auth extends Component {
           { /* Logo */}
 
           <Link to='/' className={`${styles.logo}`}>
-            <img
-              draggable='false'
-              src={'./fullstack-app-title.png'}
-              alt='serverless-fullstack-application'
-            />
+            <div className={`${styles.artwork} animateFlicker`}>
+              PANGRAM
+            </div>
           </Link>
 
           { /* Loading */}

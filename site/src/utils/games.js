@@ -41,6 +41,7 @@ export const createGameLetters = async () => {
   response.gameLetters = gameLetters.replace(magicLetter, '');
   response.magicLetter = magicLetter;
   response.numberOfTries = numberOfTries;
+  response.levels = [5,15,25,35,45];
   console.log(response);
   return response;
 }

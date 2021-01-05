@@ -155,14 +155,15 @@
   transition: all 0.6s ease;
   background: none;
   outline: none;
-  color: #ffffff;
-  caret-color: white;
+  color: black;
+  caret-color: black;
+  background-color: white;
 }
 
 .formInput::placeholder {
   text-align: center;
   font-size: 22px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(121, 121, 121, 0.5);
   margin: 0;
 }
 
@@ -179,6 +180,16 @@
 
 .formButton {
   margin: 16px auto 0 auto!important;
+  color: black;
+  background-color:#e6e6e6;
+  border: #F8E71C 1px solid;
+  font-size: 18px;
+  width: 108px;
+  height: 60px;
+  border-radius: 60px;
+  outline: none;
+  cursor: pointer;
+  font-weight: 700;
 }
 
 .formButton:hover {
