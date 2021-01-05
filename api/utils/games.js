@@ -1,12 +1,12 @@
 import scrabble from 'scrabble';
 
-export const createGameLetters = async () => {
+export const createGame = async () => {
   let response = {};
   let gameLetters = getRandomLetters();
   let numberOfTries = 1;
   let magicLetter = gameLetters.charAt(Math.floor(Math.random() * gameLetters.length));
   
-  while(!validateLettersArePlayable(gameLetters)) {
+  while(!validateLettersArePlayable(gameLetters, magicLetter)) {
     gameLetters = getRandomLetters();
     magicLetter = gameLetters.charAt(Math.floor(Math.random() * gameLetters.length));
     ++numberOfTries;
@@ -15,24 +15,22 @@ export const createGameLetters = async () => {
   let rawWords = scrabble(gameLetters + gameLetters + gameLetters + gameLetters + gameLetters + gameLetters);
   let words = [];
   let pangram = [];
-  response.success = false;
 
   for(let i = 0; i < rawWords.length; i++) {
     if (rawWords[i].includes(magicLetter) && rawWords[i].length > 3) {
       words.push(rawWords[i]);
-      if (rawWords[i].length >= gameLetters.length) {
+      if (rawWords[i].length === gameLetters.length) {
         let regexString = constructRegex(gameLetters);
         let regex = RegExp(regexString);
-        let res = regex.test(rawWords[i]);
-        if (res) {
+        let response = regex.test(rawWords[i]);
+        if (response) {
           pangram.push(rawWords[i]);
-          if(rawWords[i].length === gameLetters.length) {
-            response.success = true;
-          }
         }
       }
     }
   }
+
+  response.sucess = true;
 
   if (words.length < 10 || pangram.length === 0) {
     response.sucess = false;
@@ -67,18 +65,16 @@ const getRandomLetters = () => {
   return gameLetters;
 }
 
-const validateLettersArePlayable = (letters) => {
+const validateLettersArePlayable = (letters, magicLetter) => {
   const words = scrabble(letters + letters + letters + letters + letters + letters);
 
   if (words.length > 20) {
     for(let i = 0; i < words.length; i++) {
-      if (words[i].length === letters.length) {
-        let regexString = constructRegex(letters);
-        let regex = RegExp(regexString);
-        let response = regex.test(words[i]);
-        if (response) {
-          return true;
-        }
+      let regexString = constructRegex(letters);
+      let regex = RegExp(regexString);
+      let response = regex.test(words[i]);
+      if (response && words[i].includes(magicLetter)) {
+        return true;
       }
     }
   }

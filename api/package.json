@@ -9,6 +9,7 @@
     "jsonwebtoken": "^8.5.1",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
+    "scrabble": "^1.0.10",
     "shortid": "^2.2.15"
   },
   "devDependencies": {},

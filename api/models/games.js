@@ -1,3 +1,5 @@
+import { createGame } from '../utils/games'
+
 /**
  * Model: Games
  */
@@ -18,17 +20,11 @@ const dynamodb = new AWS.DynamoDB.DocumentClient({
  */
 const create = async() => {
 
-  let gameLetters = createGameLetters();
-
-  
-
-  // create score array
-
-
+  let gameLetters = createGame();
 
   // Validate
-  if (!game.email) {
-    throw new Error(`"email" is required`)
+  while (!game.success) {
+    gameLetters = createGame();
   }
   if (!game.password) {
     throw new Error(`"password" is required`)

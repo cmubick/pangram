@@ -6,7 +6,8 @@ import styles from './Dashboard.module.css'
 import {
   getSession,
   deleteSession,
-  createGameLetters
+  createGameLetters,
+  getPremadeGames
 } from '../../utils'
 import GridLoader from 'react-spinners/GridLoader';
 import { css } from '@emotion/core';
@@ -14,6 +15,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { FiRefreshCcw } from 'react-icons/fi';
 import Drawer from 'react-drag-drawer'
 import ReactTimer from '@xendora/react-timer';
+import KeyboardEventHandler from 'react-keyboard-event-handler';
 
 class Dashboard extends Component {
 
@@ -27,7 +29,9 @@ class Dashboard extends Component {
       points: 0,
       isOpen: false,
       level: 'beginner',
-      gameLetters: ''
+      gameLetters: '',
+      gameIndex: 0,
+      loadedGames: []
     }
     this.logout = this.logout.bind(this)
     this.createGame = this.createGame.bind(this);
@@ -41,6 +45,7 @@ class Dashboard extends Component {
     this.updateLevel = this.updateLevel.bind(this);
     this.onSuffleLetters = this.onSuffleLetters.bind(this);
     this.getWordEntry = this.getWordEntry.bind(this);
+    this.handleKeystroke = this.handleKeystroke.bind(this);
   }
 
   async componentDidMount() {
@@ -48,7 +53,17 @@ class Dashboard extends Component {
     this.setState({
       session: userSession,
     }, () => {
-      this.createGame();
+      const games = getPremadeGames();
+      this.setState({
+        loadedGames: games,
+        game: games[this.state.gameIndex],
+        gameLetters: games[this.state.gameIndex].gameLetters,
+        loading: false,
+        wordEntry: '',
+        answers: [],
+        message: '',
+        points: 0
+      });
     });
   }
 
@@ -62,23 +77,38 @@ class Dashboard extends Component {
       loading: true,
       isOpen: false
     }, () => {
-      setTimeout(() => { // TODO: fix loading flag, then remove setTimeout hack
-        createGameLetters().then((data) => {
-          if (!data.sucess) {
-            this.createGame();
-          } else {
-            this.setState({
-              game: data,
-              gameLetters: data.gameLetters,
-              loading: false,
-              wordEntry: '',
-              answers: [],
-              message: '',
-              points: 0
-            });
-          }
-        });
-      }, 10);
+      let { loadedGames, gameIndex } = this.state;
+      if (gameIndex < loadedGames.length -1) {
+        ++ gameIndex;
+        this.setState({
+          game: loadedGames[gameIndex],
+          gameIndex: gameIndex,
+          gameLetters: loadedGames[gameIndex].gameLetters,
+          loading: false,
+          wordEntry: '',
+          answers: [],
+          message: '',
+          points: 0
+        })
+      } else {
+        setTimeout(() => { 
+          createGameLetters().then((data) => {
+            if (!data.success) {
+              this.createGame();
+            } else {
+              this.setState({
+                game: data,
+                gameLetters: data.gameLetters,
+                loading: false,
+                wordEntry: '',
+                answers: [],
+                message: '',
+                points: 0
+              });
+            }
+          });
+        }, 10);
+      }
     });
   }
 
@@ -216,17 +246,28 @@ class Dashboard extends Component {
     let { wordEntry, game } = this.state;
     wordEntry = wordEntry.toUpperCase();
     let arr = wordEntry.split('');
-    return arr.map((letter) => {
+    return arr.map((letter, index) => {
       if (letter === game.magicLetter.toUpperCase()) {
         return (
-          <><span className={styles.magicLetterEntry}>{letter}</span></>
+          <span className={styles.magicLetterEntry} key={`${letter}-${index}`}>{letter}</span>
         )
       } else {
         return (
-          <><span>{letter}</span></>
+          <span key={`${letter}-${index}`}>{letter}</span>
         )
       }
     });
+  }
+
+  handleKeystroke(key) {
+    const { gameLetters, game } = this.state;
+    if (gameLetters.includes(key) || key === game.magicLetter){
+      this.onEntryChange(key);
+    } else if (key === 'enter') {
+      this.onSubmit();
+    } else if (key === 'backspace') {
+      this.onBackClick();
+    }
   }
 
   render() {
@@ -370,7 +411,11 @@ class Dashboard extends Component {
                 </div>
               </div> : null }
           </div> : null }
-        </div> 
+        </div>
+        <KeyboardEventHandler
+            key={'keyboardEventHandler'}
+            handleKeys={['alphanumeric', 'enter', 'backspace']}
+            onKeyEvent={(keyboardKey, e) => this.handleKeystroke(keyboardKey)} /> 
       </div>
     )
   }
