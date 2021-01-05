@@ -8,8 +8,11 @@ import {
   deleteSession,
   createGameLetters
 } from '../../utils'
-import PacmanLoader from "react-spinners/PacmanLoader";
+import GridLoader from "react-spinners/GridLoader";
 import { css } from "@emotion/core";
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { FiRefreshCcw } from 'react-icons/fi';
+import Drawer from 'react-drag-drawer'
 
 class Dashboard extends Component {
 
@@ -20,7 +23,8 @@ class Dashboard extends Component {
       loading: false,
       answers: [],
       message: '',
-      points: 0
+      points: 0,
+      isOpen: false
     }
     this.logout = this.logout.bind(this)
     this.createGame = this.createGame.bind(this);
@@ -28,6 +32,8 @@ class Dashboard extends Component {
     this.onBackClick = this.onBackClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onKeyPress = this.onKeyPress.bind(this);
+    this.closeDrawer = this.closeDrawer.bind(this);
+    this.openDrawer = this.openDrawer.bind(this);
   }
 
   async componentDidMount() {
@@ -134,6 +140,14 @@ class Dashboard extends Component {
     }
   }
 
+  closeDrawer() {
+    this.setState({isOpen: false});
+  }
+  
+  openDrawer() {
+    this.setState({isOpen: true});
+  }
+
   render() {
     const override = css`
       display: block;
@@ -143,18 +157,31 @@ class Dashboard extends Component {
     return (
       <div className={`${styles.container} animateFadeIn`}>
         <div className={styles.containerInner}>
-
+        <div className={styles.topNav}>
+          <div 
+            className={`${styles.navButton} link`}
+            onClick={this.openDrawer}>
+              <GiHamburgerMenu />
+          </div>
+          <div className={`${styles.artwork} animateFlicker`}>
+            PANGRAM
+          </div>
+        </div>
+        <Drawer 
+          open={this.state.isOpen}
+          onRequestClose={this.closeDrawer}
+          onOpen={this.openDrawer}
+          allowClose={true}
+        >
           <div className={styles.navigationContainer}>
             <div 
               className={`link`}
               onClick={this.createGame}>
-                New
-            </div>
-            <div className={`${styles.artwork} animateFlicker`}>
-              PANGRAM
+                New Game
             </div>
             <div 
-              className={`link`}>
+              className={`link`}
+              onClick={this.openDrawer}>
                 { this.state.session ? this.state.session.userEmail : '' }
             </div>
             <div 
@@ -163,14 +190,17 @@ class Dashboard extends Component {
                 logout
             </div>
           </div>
+        </Drawer>
 
           {this.state.loading ? 
           <div className={`${styles.contentContainer}`}>
-            <div>
-              <PacmanLoader color={'#F8E71C'} loading={this.state.loading} css={override} />
+            <div className={styles.loadingWrapper}>
+              <div>
+                <GridLoader color={'#F8E71C'} loading={this.state.loading} css={override} />
+              </div>
+              <br/>
+              <div className={`${styles.loadingMessage}`}>...Loading</div>
             </div>
-            <br/>
-            <div className={`${styles.loadingMessage}`}>...Loading</div>
           </div> 
           : this.state?.game ?
             <div className={`${styles.contentContainer}`}>
@@ -181,28 +211,47 @@ class Dashboard extends Component {
                 <span className={`${styles.wordEntry}`}>{this.state.wordEntry.toUpperCase()}</span>
               </div>
 
-              <div>
-                <button onClick={() => this.onEntryChange(this.state.game.gameLetters[0])} className={`${styles.letterButton}`}>{this.state.game.gameLetters[0].toUpperCase()}</button>
-              </div>
-              <div className={`${styles.buttonWrapper}`}>
-                <button onClick={() => this.onEntryChange(this.state.game.gameLetters[1])} className={`${styles.letterButton}`}>{this.state.game.gameLetters[1].toUpperCase()}</button>
-                <span className={`${styles.buttonWrapper}`}></span>
-                <button onClick={() => this.onEntryChange(this.state.game.gameLetters[2])} className={`${styles.letterButton}`}>{this.state.game.gameLetters[2].toUpperCase()}</button>
-              </div>
-              <div className={`${styles.buttonWrapper}`}>
-                <button onClick={() => this.onEntryChange(this.state.game.magicLetter)} className={`${styles.magicLetterButton}`}>{this.state.game.magicLetter.toUpperCase()}</button>
-              </div>
-              <div className={`${styles.buttonWrapper}`}>
-                <button onClick={() => this.onEntryChange(this.state.game.gameLetters[3])} className={`${styles.letterButton}`}>{this.state.game.gameLetters[3].toUpperCase()}</button>
-                <span className={`${styles.buttonSpacer}`}></span>
-                <button onClick={() => this.onEntryChange(this.state.game.gameLetters[4])} className={`${styles.letterButton}`}>{this.state.game.gameLetters[4].toUpperCase()}</button>
-              </div>
-              <div className={`${styles.buttonWrapper}`}>
-                <button onClick={() => this.onEntryChange(this.state.game.gameLetters[5])} className={`${styles.letterButton}`}>{this.state.game.gameLetters[5].toUpperCase()}</button>
+              <div className={`${styles.letterButtonContainer}`}>
+                <div>
+                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[0])} className={`${styles.letterButton}`}>
+                    <span>{this.state.game.gameLetters[0].toUpperCase()}</span>
+                  </button>
+                </div>
+                <div className={`${styles.buttonWrapper}`}>
+                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[1])} className={`${styles.letterButton}`}>
+                      <span>{this.state.game.gameLetters[1].toUpperCase()}</span>
+                    </button>
+                  <span className={`${styles.buttonWrapper}`}></span>
+                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[2])} className={`${styles.letterButton}`}>
+                    <span>{this.state.game.gameLetters[2].toUpperCase()}</span>
+                  </button>
+                </div>
+                <div className={`${styles.buttonWrapper}`}>
+                  <button onClick={() => this.onEntryChange(this.state.game.magicLetter)} className={`${styles.magicLetterButton}`}>
+                    <span>{this.state.game.magicLetter.toUpperCase()}</span>
+                  </button>
+                </div>
+                <div className={`${styles.buttonWrapper}`}>
+                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[3])} className={`${styles.letterButton}`}>
+                    <span>{this.state.game.gameLetters[3].toUpperCase()}</span>
+                  </button>
+                  <span className={`${styles.buttonSpacer}`}></span>
+                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[4])} className={`${styles.letterButton}`}>
+                    <span>{this.state.game.gameLetters[4].toUpperCase()}</span>
+                  </button>
+                </div>
+                <div className={`${styles.buttonWrapper}`}>
+                  <button onClick={() => this.onEntryChange(this.state.game.gameLetters[5])} className={`${styles.letterButton}`}>
+                    <span>{this.state.game.gameLetters[5].toUpperCase()}</span>
+                    </button>
+                </div>
               </div>
               <div className={`${styles.actionButtonWrapper}`}>
                 <button onClick={this.onBackClick} className={`${styles.actionButton}`}>
-                  Delete
+                  DELETE
+                </button>
+                <button className={`${styles.shuffleButton}`}>
+                  <FiRefreshCcw />
                 </button>
                 <button onClick={this.onSubmit} className={`${styles.actionButton}`} onKeyPress={this.onKeyPress}>
                   SUBMIT
@@ -213,9 +262,9 @@ class Dashboard extends Component {
                   <span className={`${styles.errorMessage}`}>{this.state.message}</span>
                 }
               </div>
+              {this.state.answers.length > 0 ?
               <div className={`${styles.gameStats}`}>
                 <div className={`${styles.points}`}>
-                  Words Found: <br/>
                   {this.state.answers.map((answer, index) => {
                     return (
                       <span key={answer}>
@@ -226,7 +275,7 @@ class Dashboard extends Component {
                       </span>
                   )})}
                 </div>
-              </div>
+              </div> : null }
           </div> : null }
         </div> 
       </div>
