@@ -43,9 +43,33 @@ export const createGameLetters = async () => {
   response.gameLetters = gameLetters.replace(magicLetter, '');
   response.magicLetter = magicLetter;
   response.numberOfTries = numberOfTries;
-  response.levels = [5,15,25,35,45];
+  response.levels = getLevels(response);
   console.log(response);
   return response;
+}
+
+const getLevels = (game) => {
+  let levels = [];
+  let totalPoints = getTotalPoints(game);
+  levels[0] = Math.floor(totalPoints * .08);
+  levels[1] = Math.floor(totalPoints * .2);
+  levels[2] = Math.floor(totalPoints * .3);
+  levels[3] = Math.floor(totalPoints * .4);
+  levels[4] = Math.floor(totalPoints * .6);
+  levels[5] = totalPoints;
+  return levels;
+}
+
+const getTotalPoints = (game) => {
+  let points = 0;
+  game.words.forEach((word) => {
+    if (game.pangram.includes(word)){
+      points += 20;
+    } else {
+      points += word.length;
+    }
+  });
+  return points;
 }
 
 const getRandomLetters = () => {

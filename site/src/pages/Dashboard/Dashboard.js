@@ -62,7 +62,9 @@ class Dashboard extends Component {
         wordEntry: '',
         answers: [],
         message: '',
-        points: 0
+        points: 0,
+        isOpen: false,
+        level: 'beginner'
       });
     });
   }
@@ -88,7 +90,9 @@ class Dashboard extends Component {
           wordEntry: '',
           answers: [],
           message: '',
-          points: 0
+          points: 0,
+          isOpen: false,
+          level: 'beginner',
         })
       } else {
         setTimeout(() => { 
@@ -103,7 +107,9 @@ class Dashboard extends Component {
                 wordEntry: '',
                 answers: [],
                 message: '',
-                points: 0
+                points: 0,
+                isOpen: false,
+                level: 'beginner',
               });
             }
           });
@@ -229,9 +235,19 @@ class Dashboard extends Component {
           level: 'awesome'
         });
         break;
-      case points > game.levels[2]:
+      case game.levels[3] > points && points >= game.levels[2]:
+        this.setState({
+          level: 'advanced'
+        });
+        break;
+      case game.levels[4] > points && points >= game.levels[3]:
         this.setState({
           level: 'genius'
+        });
+        break;
+      case points > game.levels[4]:
+        this.setState({
+          level: 'complete!'
         });
         break;
       default:
@@ -333,7 +349,6 @@ class Dashboard extends Component {
                     end={() => false}
                     onEnd={value => console.log('ENDED WITH VALUE', value)}
                     onTick={value => value + 1}
-                    className={styles.timer}
                   >
                     {time => <div>{this.convertSecondsToTime(time)}</div>}
                   </ReactTimer>

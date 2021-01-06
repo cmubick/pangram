@@ -192,7 +192,9 @@
 .points div {
   color: #F8E71C !important;
   font-weight: 400 !important;
-  font-size: 18px !important;
+  font-size: 16px !important;
+  width: 30%;
+  text-align: center;
 }
 
 .timer {
@@ -237,7 +239,7 @@
   border: #F8E71C 1px solid;
   pointer-events: all;
   text-align: center;
-  padding: 4px 0px 0px 0px;
+  padding: 8px 0px 0px 0px;
 }
 
 .actionButton {
