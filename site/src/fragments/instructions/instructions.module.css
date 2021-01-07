@@ -1,0 +1,94 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: auto;
+  max-width: 300px;
+  margin: 8px;
+}
+
+.list {
+  margin: 6px 0px;
+}
+
+.listItem {
+  font-size: 14px;
+}
+
+.feedback {
+  font-size: 14px;
+}
+
+a {
+  font-size: 14px;
+}
+
+.container button {
+  color: black;
+  background-color:#e6e6e6;
+  border: #F8E71C 1px solid;
+  font-size: 18px;
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  outline: none;
+  cursor: pointer;
+  font-weight: 700;
+  padding-top: 6px;
+  position: absolute;
+  top: 16px;
+  right: 4px;
+}
+
+.container button:hover {
+  background-color: rgb(211, 211, 211);
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 16px 0 16px 0;
+}
+
+.heading {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.container img {
+  display: flex;
+  align-self: center;
+  height: 100%;
+  width: auto;
+  max-width: 100px;
+  max-height: 100px;
+  margin: 0 0 20px 0;
+  animation-duration: 0.4s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease;
+  filter: none;
+  -webkit-filter: grayscale(100%);
+  -moz-filter:    grayscale(100%);
+  -ms-filter:     grayscale(100%);
+  -o-filter:      grayscale(100%);
+}
+
+.container  p {
+  font-size: 22px;
+  color: rgba(255,255,255,0.5);
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
+}
+

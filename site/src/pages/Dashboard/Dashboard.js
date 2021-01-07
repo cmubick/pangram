@@ -16,6 +16,8 @@ import { TiArrowShuffle } from 'react-icons/ti';
 import Drawer from 'react-drag-drawer'
 import ReactTimer from '@xendora/react-timer';
 import KeyboardEventHandler from 'react-keyboard-event-handler';
+import FeatureBacklog from '../../fragments/featureBacklog';
+import Instructions from '../../fragments/instructions';
 
 class Dashboard extends Component {
 
@@ -28,6 +30,8 @@ class Dashboard extends Component {
       message: '',
       points: 0,
       isOpen: false,
+      showInstructions: false,
+      showFeatureBacklog: false,
       level: 'beginner',
       gameLetters: '',
       gameIndex: 0,
@@ -46,6 +50,8 @@ class Dashboard extends Component {
     this.onSuffleLetters = this.onSuffleLetters.bind(this);
     this.getWordEntry = this.getWordEntry.bind(this);
     this.handleKeystroke = this.handleKeystroke.bind(this);
+    this.showFeatureBacklog = this.showFeatureBacklog.bind(this);
+    this.showInstructions = this.showInstructions.bind(this);
   }
 
   async componentDidMount() {
@@ -64,6 +70,8 @@ class Dashboard extends Component {
         message: '',
         points: 0,
         isOpen: false,
+        showInstructions: false,
+        showFeatureBacklog: false,
         level: 'beginner'
       });
     });
@@ -77,7 +85,9 @@ class Dashboard extends Component {
   createGame() {
     this.setState({
       loading: true,
-      isOpen: false
+      isOpen: false,
+      showInstructions: false,
+      showFeatureBacklog: false,
     }, () => {
       let { loadedGames, gameIndex } = this.state;
       if (gameIndex < loadedGames.length -1) {
@@ -92,6 +102,8 @@ class Dashboard extends Component {
           message: '',
           points: 0,
           isOpen: false,
+          showInstructions: false,
+          showFeatureBacklog: false,
           level: 'beginner',
         })
       } else {
@@ -109,6 +121,8 @@ class Dashboard extends Component {
                 message: '',
                 points: 0,
                 isOpen: false,
+                showInstructions: false,
+                showFeatureBacklog: false,
                 level: 'beginner',
               });
             }
@@ -209,7 +223,11 @@ class Dashboard extends Component {
   }
 
   closeDrawer() {
-    this.setState({isOpen: false});
+    this.setState({
+      isOpen: false,
+      showInstructions: false,
+      showFeatureBacklog: false,
+    });
   }
   
   openDrawer() {
@@ -235,12 +253,17 @@ class Dashboard extends Component {
           level: 'awesome'
         });
         break;
-      case game.levels[3] > points && points >= game.levels[2]:
+        case game.levels[3] > points && points >= game.levels[2]:
+          this.setState({
+            level: 'advanced'
+          });
+          break;
+      case game.levels[4] > points && points >= game.levels[3]:
         this.setState({
-          level: 'advanced'
+          level: 'incredible'
         });
         break;
-      case game.levels[4] > points && points >= game.levels[3]:
+      case game.levels[5] > points && points >= game.levels[4]:
         this.setState({
           level: 'genius'
         });
@@ -286,6 +309,18 @@ class Dashboard extends Component {
     }
   }
 
+  showFeatureBacklog() {
+    this.setState({
+      showFeatureBacklog: true
+    });
+  }
+
+  showInstructions() {
+    this.setState({
+      showInstructions: true
+    });
+  }
+
   render() {
     const override = css`
       display: block;
@@ -312,21 +347,36 @@ class Dashboard extends Component {
           allowClose={true}
         >
           <div className={styles.navigationContainer}>
-            <div 
-              className={`link`}
-              onClick={this.createGame}>
-                New Game
-            </div>
-            <div 
-              className={`link`}
-              onClick={this.openDrawer}>
-                { this.state.session ? this.state.session.userEmail : '' }
-            </div>
-            <div 
-              className={`link`}
-              onClick={this.logout}>
-                logout
-            </div>
+            {this.state.showFeatureBacklog ? <FeatureBacklog onClose={this.closeDrawer} /> : 
+            this.state.showInstructions ? <Instructions onClose={this.closeDrawer}/> :
+            <>
+              <div 
+                className={`link`}
+                onClick={this.createGame}>
+                  New Game
+              </div>
+              <div 
+                className={`link`}
+                onClick={this.showInstructions}>
+                  Instructions
+              </div>
+              <div 
+                className={`link`}
+                onClick={this.showFeatureBacklog}>
+                  Feature Backlog
+              </div>
+              {/* <div 
+                className={`link`}
+                onClick={this.openDrawer}>
+                  { this.state.session ? this.state.session.userEmail : '' }
+              </div> */}
+              <div 
+                className={`link`}
+                onClick={this.logout}>
+                  logout
+              </div>
+            </>
+            }
           </div>
         </Drawer>
 
